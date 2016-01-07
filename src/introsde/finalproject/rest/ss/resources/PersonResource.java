@@ -54,6 +54,7 @@ public class PersonResource {
     }
 
     // Application integration
+    
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response getPerson() {
