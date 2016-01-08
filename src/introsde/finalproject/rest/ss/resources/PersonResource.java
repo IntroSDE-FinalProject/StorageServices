@@ -56,15 +56,18 @@ public class PersonResource {
     // Application integration
     
     @GET
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Produces( MediaType.APPLICATION_JSON )
     public Response getPerson() {
-    	System.out.println("////sono in get person");
-        Person person = people.getPerson(id);
-       if (person == null)
-           return Response.status(Response.Status.NOT_FOUND)
-        		   .entity("Get: Person with " + id + " not found").build();
-       else
-          return Response.ok(person).build();
+    	System.out.println("getPerson: Reading Person...");
+    	Person person = people.getPerson(id);
+    	if (person == null)
+    		return Response.status(Response.Status.NOT_FOUND)
+    				.entity("Get: Person with " + id + " not found").build();
+    	else{
+    		System.out.println("Person: "+person.toString());
+    		return Response.ok(person).build();
+    	}
     }
+    
     
 }
