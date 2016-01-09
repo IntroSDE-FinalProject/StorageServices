@@ -99,7 +99,7 @@
 		<echo message="${lib.dir} has been deleted" />
 	</target>
 
-	<target name="install" ><!-- depends="clean, init, generate-stubs"> -->
+	<target name="install" depends="clean, init, generate-stubs">
 		<echo message="Compile target has been called" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="lib.path.id" includeAntRuntime="false">
 		</javac>
@@ -143,7 +143,7 @@
     </target>
     
     <property name="java-home" value="/usr/lib/jvm/jdk1.8.0" />
-    <property name="wsdl.location" value="https://lds-hidden-taiga-5842.herokuapp.com/ws/people?wsdl" /> 
+    <property name="wsdl.location" value="https://lds-hidden-taiga-5842.herokuapp.com/ws/people?wsdl" />
 <!--  <property name="wsdl.location" value="http://127.0.1.1:6902/ws/people?wsdl" /> -->
 
     <target name="generate-stubs">
