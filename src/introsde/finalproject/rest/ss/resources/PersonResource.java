@@ -60,7 +60,7 @@ public class PersonResource {
     		return Response.status(Response.Status.NOT_FOUND)
     				.entity("Get: Person with " + this.idPerson + " not found").build();
     	else{
-    		System.out.println("Person: "+person.toString());
+    		System.out.println("Person: "+person.getIdPerson()+" "+person.getLastname());
     		return Response.ok(person).build();
     	}
     }
@@ -68,6 +68,7 @@ public class PersonResource {
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response updatePerson(Person person) {
+    	System.out.println("updatePerson: Updating person with id: "+this.idPerson);
     	person.setIdPerson(this.idPerson);
         int result = people.updatePerson(person);    
         if (result >= 0)
@@ -82,6 +83,7 @@ public class PersonResource {
     
     @DELETE
     public Response deletePerson() {
+    	System.out.println("detetePerson: Deleting person with id: "+ this.idPerson);
         int result = people.deletePerson(this.idPerson);
         if (result == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -101,7 +103,17 @@ public class PersonResource {
     	List<Measure> result = people.getVitalSigns(this.idPerson);
     	return result;
     }
-   /* 
+    
+    @GET
+    @Path("/target")
+    @Produces( MediaType.APPLICATION_JSON )
+    public List<Target> getTargetList() {
+    	System.out.println("getTargetList: Reading targets for idPerson "+ this.idPerson +"...");
+    	List<Target> result = people.getTargetList(this.idPerson);
+    	return result;
+    }
+    
+   
     @POST
 	@Path("/target")
     @Produces(MediaType.APPLICATION_JSON)
@@ -116,12 +128,12 @@ public class PersonResource {
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
     }
-    */
     
     @PUT
     @Path("/target/{targetId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response updateTarget(Target target, @PathParam("targetId") int targetId) {
+    	System.out.println("updateTarget: Updating target with id: "+ targetId);
     	target.setIdTarget(targetId);
         int result = people.updateTarget(target);    
         if (result >= 0)
@@ -136,7 +148,8 @@ public class PersonResource {
     
     @DELETE
     @Path("/target/{targetId}")
-    public Response deletePerson(@PathParam("targetId") int targetId) {
+    public Response deleteTarget(@PathParam("targetId") int targetId) {
+    	System.out.println("deteteTarget: Deleting target with id: "+ targetId);
         int result = people.deleteTarget(targetId);
         if (result == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -147,4 +160,15 @@ public class PersonResource {
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
     }
+    
+    @GET
+    @Path("/target/{measureDefinitionId}")
+    @Produces( MediaType.APPLICATION_JSON )
+    public List<Target> getTarget(@PathParam("measureDefinitionId") int measureDefId) {
+    	System.out.println("getTarget: Reading target for idPerson = "+ this.idPerson +
+    			" and measureDefId = "+measureDefId+"...");
+    	List<Target> result = people.getTarget(this.idPerson, measureDefId);
+    	return result;
+    }
+    
 }
