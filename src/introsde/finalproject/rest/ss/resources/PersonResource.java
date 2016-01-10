@@ -105,6 +105,15 @@ public class PersonResource {
     	return result;
     }
     
+    @GET
+    @Path("/currentHealth")
+    @Produces( MediaType.APPLICATION_JSON )
+    public List<Measure> getCurrentHealth() {
+    	System.out.println("getCurrentHealth: Reading CurrentHealth for idPerson "+ this.idPerson +"...");
+    	List<Measure> result = people.getCurrentHealth(this.idPerson);
+    	return result;
+    }
+    
     //********************TARGET********************
     
     @GET

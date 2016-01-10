@@ -8,6 +8,7 @@
 |PUT /person/{personId}|updatePerson|
 |DELETE /person/{personId}|deletePerson|
 |GET /person/{personId}/vitalsings|getVitalSigns|
+|GET /person/{personId}/currenthealth|getCurrentHealth|
 |||
 |GET /person/{personId}/target|getTargetList|
 |POST /person/{personId}/target|createTarget|
