@@ -75,7 +75,7 @@ public class PersonResource {
         	return Response.ok(result).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("Get: Person with " + this.idPerson + " not found").build();
+    				.entity("updatePerson: Person with " + this.idPerson + " not found").build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
     				.entity("Error in LocalDatabaseService").build();   	
@@ -90,7 +90,7 @@ public class PersonResource {
     				.entity("Error in LocalDatabaseService").build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("Get: Person with " + this.idPerson + " not found").build();
+    				.entity("deletePerson: Person with " + this.idPerson + " not found").build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
     }
@@ -140,7 +140,7 @@ public class PersonResource {
         	return Response.ok(result).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("Get: Target with " + targetId + " not found").build();
+    				.entity("updateTarget: Target with " + targetId + " not found").build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
     				.entity("Error in LocalDatabaseService").build();   	
@@ -156,7 +156,7 @@ public class PersonResource {
     				.entity("Error in LocalDatabaseService").build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("Get: Target with " + targetId + " not found").build();
+    				.entity("deleteTarget: Target with " + targetId + " not found").build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
     }

@@ -87,6 +87,21 @@ public class CollectionResources {
         	return Response.status(Response.Status.CREATED).entity(id).build();
     }
 	
+	@POST
+	@Path("doctor")
+	@Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})  
+    public Response createDoctor(Doctor doctor) throws IOException {
+		System.out.println("New Doctor: "+doctor.getFirstname()+" "+doctor.getLastname());
+        System.out.println("createDoctor: Creating new doctor...");
+        int id = this.people.createDoctor(doctor);
+        if(id == -1)
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();
+        else
+        	return Response.status(Response.Status.CREATED).entity(id).build();
+    }
+	
 	 /**
      * returns the number of people to get the total number of records
      * @return a string representing the number of people

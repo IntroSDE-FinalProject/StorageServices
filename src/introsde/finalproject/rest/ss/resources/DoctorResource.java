@@ -3,7 +3,10 @@ package introsde.finalproject.rest.ss.resources;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -12,6 +15,7 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import introsde.finalproject.soap.ws.Doctor;
 import introsde.finalproject.soap.ws.People;
 import introsde.finalproject.soap.ws.Person;
 
@@ -39,7 +43,50 @@ public class DoctorResource {
         this.people = people;
     }
 	
+    @GET
+    @Produces( MediaType.APPLICATION_JSON )
+    public Response getDoctor() {
+    	System.out.println("get: Reading Doctor...");
+    	Doctor doctor = people.getDoctor(this.idDoctor);
+    	if (doctor == null)
+    		return Response.status(Response.Status.NOT_FOUND)
+    				.entity("Get: Doctor with " + this.idDoctor + " not found").build();
+    	else{
+    		System.out.println("Doctor: "+doctor.getIdDoctor()+" "+doctor.getLastname());
+    		return Response.ok(doctor).build();
+    	}
+    }
 	
+    @PUT
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response updateDoctor(Doctor doctor) {
+    	System.out.println("updateDoctor: Updating doctor with id: "+this.idDoctor);
+    	doctor.setIdDoctor(this.idDoctor);
+        int result = people.updateDoctor(doctor);    
+        if (result >= 0)
+        	return Response.ok(result).build();
+        else if (result == -2)
+        	return Response.status(Response.Status.NOT_FOUND)
+    				.entity("updateDoctor: Doctor with " + this.idDoctor + " not found").build();
+        else
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();   	
+    }
+    
+    @DELETE
+    public Response deleteDoctor() {
+    	System.out.println("deteteDoctor: Deleting doctor with id: "+ this.idDoctor);
+        int result = people.deleteDoctor(this.idDoctor);
+        if (result == -1)
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();
+        else if (result == -2)
+        	return Response.status(Response.Status.NOT_FOUND)
+    				.entity("deleteDoctor: Doctor with " + this.idDoctor + " not found").build();
+        else
+        	return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    
     @GET
     @Path("/patients")
     @Produces( MediaType.APPLICATION_JSON )
@@ -48,6 +95,5 @@ public class DoctorResource {
     	List<Person> result = people.getPersonByDoctor(this.idDoctor);
     	return Response.ok(result).build();
     }
-    
     
 }
