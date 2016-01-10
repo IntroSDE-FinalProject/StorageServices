@@ -20,9 +20,13 @@
 |PUT /person/{personId}/reminder/{reminderId}|updateReminder|
 |DELETE /person/{personId}/reminder/{reminderId}|deleteReminder|
 |||
+|GET /person/{personId}/measure|getMeasure|
+|POST /person/{personId}/measure|createMeasure|
+|PUT /person/{personId}/measure/{measureId}|updateMeasure|
+|DELETE /person/{personId}/measure/{measureId}|deleteMeasure|
+|||
 |GET /doctor/{doctorId}|getDoctor|
 |POST /doctor|createDoctor|
 |PUT /doctor/{doctorId}|updateDoctor|
 |DELETE /doctor/{doctorId}|deleteDoctor|
 |GET /doctor/{doctorId}/patients|getPersonByDoctor|
-|||

@@ -44,7 +44,7 @@ public class DoctorResource {
     }
 	
     @GET
-    @Produces( MediaType.APPLICATION_JSON )
+    @Produces( MediaType.TEXT_PLAIN )
     public Response getDoctor() {
     	System.out.println("get: Reading Doctor...");
     	Doctor doctor = people.getDoctor(this.idDoctor);
@@ -59,6 +59,7 @@ public class DoctorResource {
 	
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Produces( MediaType.TEXT_PLAIN )
 	public Response updateDoctor(Doctor doctor) {
     	System.out.println("updateDoctor: Updating doctor with id: "+this.idDoctor);
     	doctor.setIdDoctor(this.idDoctor);
@@ -74,6 +75,7 @@ public class DoctorResource {
     }
     
     @DELETE
+    @Produces( MediaType.TEXT_PLAIN )
     public Response deleteDoctor() {
     	System.out.println("deteteDoctor: Deleting doctor with id: "+ this.idDoctor);
         int result = people.deleteDoctor(this.idDoctor);

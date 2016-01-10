@@ -3,7 +3,6 @@ package introsde.finalproject.rest.ss.resources;
 //import ehealth.model.MeasureDefinition;
 import introsde.finalproject.soap.ws.*;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -52,7 +51,7 @@ public class PersonResource {
     //********************PERSON********************
     
     @GET
-    @Produces( MediaType.APPLICATION_JSON )
+    @Produces( MediaType.TEXT_PLAIN )
     public Response getPerson() {
     	System.out.println("getPerson: Reading Person...");
     	Person person = people.getPerson(this.idPerson);
@@ -67,6 +66,7 @@ public class PersonResource {
     
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Produces( MediaType.TEXT_PLAIN )
 	public Response updatePerson(Person person) {
     	System.out.println("updatePerson: Updating person with id: "+this.idPerson);
     	person.setIdPerson(this.idPerson);
@@ -82,6 +82,7 @@ public class PersonResource {
     }
     
     @DELETE
+    @Produces( MediaType.TEXT_PLAIN )
     public Response deletePerson() {
     	System.out.println("detetePerson: Deleting person with id: "+ this.idPerson);
         int result = people.deletePerson(this.idPerson);
@@ -118,7 +119,7 @@ public class PersonResource {
    
     @POST
 	@Path("/target")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces( MediaType.TEXT_PLAIN )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createTarget(Target target){
     	System.out.println("New Target for " + target.getMeasureDefinition().getMeasureName());
@@ -134,6 +135,7 @@ public class PersonResource {
     @PUT
     @Path("/target/{targetId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Produces( MediaType.TEXT_PLAIN )
 	public Response updateTarget(Target target, @PathParam("targetId") int targetId) {
     	System.out.println("updateTarget: Updating target with id: "+ targetId);
     	target.setIdTarget(targetId);
@@ -150,6 +152,7 @@ public class PersonResource {
     
     @DELETE
     @Path("/target/{targetId}")
+    @Produces( MediaType.TEXT_PLAIN )
     public Response deleteTarget(@PathParam("targetId") int targetId) {
     	System.out.println("deteteTarget: Deleting target with id: "+ targetId);
         int result = people.deleteTarget(targetId);
@@ -186,7 +189,7 @@ public class PersonResource {
     
     @POST
 	@Path("/reminder")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces( MediaType.TEXT_PLAIN )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createReminder(Reminder reminder){
     	//TODO finire
@@ -204,6 +207,7 @@ public class PersonResource {
     @PUT
     @Path("/reminder/{reminderId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Produces( MediaType.TEXT_PLAIN )
 	public Response updateReminder(Reminder reminder, @PathParam("reminderId") int reminderId) {
     	System.out.println("updateReminder: Updating reminder with id: "+ reminderId);
     	reminder.setIdReminder(reminderId);
@@ -220,6 +224,7 @@ public class PersonResource {
     
     @DELETE
     @Path("/reminder/{reminderId}")
+    @Produces( MediaType.TEXT_PLAIN )
     public Response deleteReminder(@PathParam("reminderId") int reminderId) {
     	System.out.println("deteteReminder: Deleting reminder with id: "+ reminderId);
         int result = people.deleteReminder(reminderId);
@@ -234,4 +239,63 @@ public class PersonResource {
     }
     
     //***********************MEASURE***********************
+    
+    @GET
+    @Path("/measure")
+    @Produces( MediaType.APPLICATION_JSON )
+    public List<Measure> getMeasure() {
+    	System.out.println("getMeasure: Reading measures for idPerson "+ this.idPerson +"...");
+    	List<Measure> result = people.getMeasure(this.idPerson);
+    	return result;
+    }
+    
+    @POST
+	@Path("/measure")
+    @Produces( MediaType.TEXT_PLAIN )
+    @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
+    public Response createMeasure(Measure measure){
+    	System.out.println("New Measure for person" + this.idPerson);
+        System.out.println("createMeasure: Creating new measure...");
+        int id = this.people.createMeasure(measure, this.idPerson);
+        if(id == -1)
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();
+        else
+        	return Response.status(Response.Status.CREATED).entity(id).build();
+    }
+    
+    @PUT
+    @Path("/measure/{measureId}")
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Produces( MediaType.TEXT_PLAIN )
+	public Response updateMeasure(Measure measure, @PathParam("measureId") int measureId) throws ParseException_Exception {
+    	System.out.println("updateMeasure: Updating measures with id: "+ measureId);
+    	measure.setIdMeasure(measureId);
+        int result = people.updateMeasure(measure);    
+        if (result >= 0)
+        	return Response.ok(result).build();
+        else if (result == -2)
+        	return Response.status(Response.Status.NOT_FOUND)
+    				.entity("updateMeasure: Measure with " + measureId + " not found").build();
+        else
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();   	
+    }
+    
+    @DELETE
+    @Path("/measure/{measureId}")
+    @Produces( MediaType.TEXT_PLAIN )
+    public Response deleteMeasure(@PathParam("measureId") int measureId) {
+    	System.out.println("deteteMeasure: Deleting Measure with id: "+ measureId);
+        int result = people.deleteMeasure(measureId);
+        if (result == -1)
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();
+        else if (result == -2)
+        	return Response.status(Response.Status.NOT_FOUND)
+    				.entity("deleteMeasure: Measure with " + measureId + " not found").build();
+        else
+        	return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    
 }
