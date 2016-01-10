@@ -30,3 +30,5 @@
 |PUT /doctor/{doctorId}|updateDoctor|
 |DELETE /doctor/{doctorId}|deleteDoctor|
 |GET /doctor/{doctorId}/patients|getPersonByDoctor|
+|||
+|GET /measureDefinition|getMeasureDefinition|
