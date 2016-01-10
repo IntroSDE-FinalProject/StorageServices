@@ -49,7 +49,7 @@ public class PersonResource {
         this.people = people;
     }
 
-    // Application integration
+    //********************PERSON********************
     
     @GET
     @Produces( MediaType.APPLICATION_JSON )
@@ -103,6 +103,8 @@ public class PersonResource {
     	List<Measure> result = people.getVitalSigns(this.idPerson);
     	return result;
     }
+    
+    //********************TARGET********************
     
     @GET
     @Path("/target")
@@ -171,4 +173,65 @@ public class PersonResource {
     	return result;
     }
     
+    //***********************REMINDER***********************
+    
+    @GET
+    @Path("/reminder")
+    @Produces( MediaType.APPLICATION_JSON )
+    public List<Reminder> getReminder() {
+    	System.out.println("getReminder: Reading reminders for idPerson "+ this.idPerson +"...");
+    	List<Reminder> result = people.getReminder(this.idPerson);
+    	return result;
+    }
+    
+    @POST
+	@Path("/reminder")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
+    public Response createReminder(Reminder reminder){
+    	//TODO finire
+    /*	System.out.println("New Reminder for person" + this.);
+        System.out.println("createReminder: Creating new reminder...");
+        int id = this.people.createTarget(target, this.idPerson);
+        if(id == -1)
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();
+        else
+        	return Response.status(Response.Status.CREATED).entity(id).build();*/
+    	return null;
+    }
+    
+    @PUT
+    @Path("/reminder/{reminderId}")
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response updateReminder(Reminder reminder, @PathParam("reminderId") int reminderId) {
+    	System.out.println("updateReminder: Updating reminder with id: "+ reminderId);
+    	reminder.setIdReminder(reminderId);
+        int result = people.updateReminder(reminder);    
+        if (result >= 0)
+        	return Response.ok(result).build();
+        else if (result == -2)
+        	return Response.status(Response.Status.NOT_FOUND)
+    				.entity("updateReminder: Reminder with " + reminderId + " not found").build();
+        else
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();   	
+    }
+    
+    @DELETE
+    @Path("/reminder/{reminderId}")
+    public Response deleteReminder(@PathParam("reminderId") int reminderId) {
+    	System.out.println("deteteReminder: Deleting reminder with id: "+ reminderId);
+        int result = people.deleteReminder(reminderId);
+        if (result == -1)
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity("Error in LocalDatabaseService").build();
+        else if (result == -2)
+        	return Response.status(Response.Status.NOT_FOUND)
+    				.entity("deleteReminder: Reminder with " + reminderId + " not found").build();
+        else
+        	return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    
+    //***********************MEASURE***********************
 }
