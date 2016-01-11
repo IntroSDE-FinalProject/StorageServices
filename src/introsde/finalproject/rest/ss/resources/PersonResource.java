@@ -201,16 +201,14 @@ public class PersonResource {
     @Produces( MediaType.TEXT_PLAIN )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createReminder(Reminder reminder){
-    	//TODO finire
-    /*	System.out.println("New Reminder for person" + this.);
+    	System.out.println("New Reminder for person" + this.idPerson);
         System.out.println("createReminder: Creating new reminder...");
-        int id = this.people.createTarget(target, this.idPerson);
+        int id = this.people.createReminder(reminder, this.idPerson);
         if(id == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
     				.entity("Error in LocalDatabaseService").build();
         else
-        	return Response.status(Response.Status.CREATED).entity(id).build();*/
-    	return null;
+        	return Response.status(Response.Status.CREATED).entity(id).build();
     }
     
     @PUT

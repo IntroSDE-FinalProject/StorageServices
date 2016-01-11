@@ -143,4 +143,15 @@ public class CollectionResources {
         List<MeasureDefinition> result = this.people.getMeasureDefinition();
         return result;
     }
+    
+    //***********************Family***********************
+    @GET
+    @Path("family/{familyId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Family getFamily(@PathParam("familyId") int id) {
+        System.out.println("getFamily: Reading family...");
+        Family result = this.people.getFamily(id);
+        return result;
+    }
+    
 }
