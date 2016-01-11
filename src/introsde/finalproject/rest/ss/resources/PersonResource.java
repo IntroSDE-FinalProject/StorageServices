@@ -74,7 +74,7 @@ public class PersonResource {
     
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces(MediaType.APPLICATION_JSON )
 	public Response updatePerson(Person person) {
     	System.out.println("updatePerson: Updating person with id: "+this.idPerson);
     	person.setIdPerson(this.idPerson);
@@ -90,7 +90,7 @@ public class PersonResource {
     }
     
     @DELETE
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
     public Response deletePerson() {
     	System.out.println("detetePerson: Deleting person with id: "+ this.idPerson);
         int result = people.deletePerson(this.idPerson);
@@ -136,7 +136,7 @@ public class PersonResource {
    
     @POST
 	@Path("/target")
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createTarget(Target target){
     	System.out.println("New Target for " + target.getMeasureDefinition().getMeasureName());
@@ -152,7 +152,7 @@ public class PersonResource {
     @PUT
     @Path("/target/{targetId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
 	public Response updateTarget(Target target, @PathParam("targetId") int targetId) {
     	System.out.println("updateTarget: Updating target with id: "+ targetId);
     	target.setIdTarget(targetId);
@@ -169,7 +169,7 @@ public class PersonResource {
     
     @DELETE
     @Path("/target/{targetId}")
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
     public Response deleteTarget(@PathParam("targetId") int targetId) {
     	System.out.println("deteteTarget: Deleting target with id: "+ targetId);
         int result = people.deleteTarget(targetId);
@@ -206,7 +206,7 @@ public class PersonResource {
     
     @POST
 	@Path("/reminder")
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createReminder(Reminder reminder){
     	System.out.println("New Reminder for person" + this.idPerson);
@@ -222,7 +222,7 @@ public class PersonResource {
     @PUT
     @Path("/reminder/{reminderId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
 	public Response updateReminder(Reminder reminder, @PathParam("reminderId") int reminderId) {
     	System.out.println("updateReminder: Updating reminder with id: "+ reminderId);
     	reminder.setIdReminder(reminderId);
@@ -239,7 +239,7 @@ public class PersonResource {
     
     @DELETE
     @Path("/reminder/{reminderId}")
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
     public Response deleteReminder(@PathParam("reminderId") int reminderId) {
     	System.out.println("deteteReminder: Deleting reminder with id: "+ reminderId);
         int result = people.deleteReminder(reminderId);
@@ -266,7 +266,7 @@ public class PersonResource {
     
     @POST
 	@Path("/measure")
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createMeasure(Measure measure){
     	System.out.println("New Measure for person" + this.idPerson);
@@ -282,7 +282,7 @@ public class PersonResource {
     @PUT
     @Path("/measure/{measureId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
 	public Response updateMeasure(Measure measure, @PathParam("measureId") int measureId) throws ParseException_Exception {
     	System.out.println("updateMeasure: Updating measures with id: "+ measureId);
     	measure.setIdMeasure(measureId);
@@ -299,7 +299,7 @@ public class PersonResource {
     
     @DELETE
     @Path("/measure/{measureId}")
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
     public Response deleteMeasure(@PathParam("measureId") int measureId) {
     	System.out.println("deteteMeasure: Deleting Measure with id: "+ measureId);
         int result = people.deleteMeasure(measureId);

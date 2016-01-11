@@ -52,13 +52,13 @@ public class DoctorResource {
     }
     
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getDoctor() {
     	System.out.println("get: Reading Doctor...");
     	Doctor doctor = people.getDoctor(this.idDoctor);
     	if (doctor == null)
     		return Response.status(Response.Status.NOT_FOUND)
-    				.entity("Get: Doctor with " + this.idDoctor + " not found").build();
+    				.entity(notFoundMessage("Doctor", this.idDoctor)).build();
     	else{
     		System.out.println("Doctor: "+doctor.getIdDoctor()+" "+doctor.getLastname());
     		return Response.ok(doctor).build();
@@ -67,7 +67,7 @@ public class DoctorResource {
 	
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces(MediaType.APPLICATION_JSON )
 	public Response updateDoctor(Doctor doctor) {
     	System.out.println("updateDoctor: Updating doctor with id: "+this.idDoctor);
     	doctor.setIdDoctor(this.idDoctor);
@@ -83,7 +83,7 @@ public class DoctorResource {
     }
     
     @DELETE
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( MediaType.APPLICATION_JSON )
     public Response deleteDoctor() {
     	System.out.println("deteteDoctor: Deleting doctor with id: "+ this.idDoctor);
         int result = people.deleteDoctor(this.idDoctor);
