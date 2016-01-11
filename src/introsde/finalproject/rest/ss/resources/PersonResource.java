@@ -47,6 +47,14 @@ public class PersonResource {
         this.idPerson = id;
         this.people = people;
     }
+    
+    private String errorMessage(){
+    	return "{ \n \"error\" : \"Error in LocalDatabaseService\"}";
+    }
+    
+    private String notFoundMessage(String name, int id){
+    	return "{ \n \"error\" : \""+ name +" with id = " + id + " not found\" \n }";
+    }
 
     //********************PERSON********************
     
@@ -57,7 +65,7 @@ public class PersonResource {
     	Person person = people.getPerson(this.idPerson);
     	if (person == null)
     		return Response.status(Response.Status.NOT_FOUND)
-    				.entity("{ \n error : \"Get: Person with " + this.idPerson + " not found\" \n }").build();
+    				.entity(notFoundMessage("Person", this.idPerson)).build();
     	else{
     		System.out.println("Person: "+person.getIdPerson()+" "+person.getLastname());
     		return Response.ok(person).build();
@@ -75,10 +83,10 @@ public class PersonResource {
         	return Response.ok(result).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("{ \n error : \"updatePerson: Person with " + this.idPerson + " not found\"}").build();
+    				.entity(notFoundMessage("Person", this.idPerson)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("{ \n error : \"Error in LocalDatabaseService\"").build();   	
+    				.entity(errorMessage()).build();   	
     }
     
     @DELETE
@@ -88,10 +96,10 @@ public class PersonResource {
         int result = people.deletePerson(this.idPerson);
         if (result == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("{ \n error : \"Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("deletePerson: Person with " + this.idPerson + " not found").build();
+    				.entity(notFoundMessage("Person", this.idPerson)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
     }
@@ -136,7 +144,7 @@ public class PersonResource {
         int id = this.people.createTarget(target, this.idPerson);
         if(id == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
     }
@@ -153,10 +161,10 @@ public class PersonResource {
         	return Response.ok(result).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("updateTarget: Target with " + targetId + " not found").build();
+    				.entity(notFoundMessage("Target", targetId)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();   	
+    				.entity(errorMessage()).build();   	
     }
     
     @DELETE
@@ -167,10 +175,10 @@ public class PersonResource {
         int result = people.deleteTarget(targetId);
         if (result == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("deleteTarget: Target with " + targetId + " not found").build();
+    				.entity(notFoundMessage("Target", targetId)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
     }
@@ -206,7 +214,7 @@ public class PersonResource {
         int id = this.people.createReminder(reminder, this.idPerson);
         if(id == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
     }
@@ -223,10 +231,10 @@ public class PersonResource {
         	return Response.ok(result).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("updateReminder: Reminder with " + reminderId + " not found").build();
+    				.entity(notFoundMessage("Reminder", reminderId)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();   	
+    				.entity(errorMessage()).build();   	
     }
     
     @DELETE
@@ -237,10 +245,10 @@ public class PersonResource {
         int result = people.deleteReminder(reminderId);
         if (result == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("deleteReminder: Reminder with " + reminderId + " not found").build();
+    				.entity(notFoundMessage("Reminder", reminderId)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
     }
@@ -266,7 +274,7 @@ public class PersonResource {
         int id = this.people.createMeasure(measure, this.idPerson);
         if(id == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
     }
@@ -283,10 +291,10 @@ public class PersonResource {
         	return Response.ok(result).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("updateMeasure: Measure with " + measureId + " not found").build();
+    				.entity(notFoundMessage("Measure", measureId)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();   	
+    				.entity(errorMessage()).build();   	
     }
     
     @DELETE
@@ -297,10 +305,10 @@ public class PersonResource {
         int result = people.deleteMeasure(measureId);
         if (result == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("deleteMeasure: Measure with " + measureId + " not found").build();
+    				.entity(notFoundMessage("Measure", measureId)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
     }

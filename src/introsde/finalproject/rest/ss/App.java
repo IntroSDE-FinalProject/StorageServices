@@ -16,7 +16,7 @@ public class App
     public static void main(String[] args) throws IllegalArgumentException, IOException, URISyntaxException
     {
         String protocol = "http://";
-        String port_value = "5700";
+        String port_value = "5777";
         if (String.valueOf(System.getenv("PORT")) != "null"){
             port_value=String.valueOf(System.getenv("PORT"));
         }

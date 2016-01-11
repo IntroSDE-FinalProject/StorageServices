@@ -43,6 +43,14 @@ public class DoctorResource {
         this.people = people;
     }
 	
+    private String errorMessage(){
+    	return "{ \n \"error\" : \"Error in LocalDatabaseService\"}";
+    }
+    
+    private String notFoundMessage(String name, int id){
+    	return "{ \n \"error\" : \""+ name +" with " + id + " not found\" \n }";
+    }
+    
     @GET
     @Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     public Response getDoctor() {
@@ -68,10 +76,10 @@ public class DoctorResource {
         	return Response.ok(result).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("updateDoctor: Doctor with " + this.idDoctor + " not found").build();
+    				.entity(notFoundMessage("Doctor", this.idDoctor)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();   	
+    				.entity(errorMessage()).build();   	
     }
     
     @DELETE
@@ -81,10 +89,10 @@ public class DoctorResource {
         int result = people.deleteDoctor(this.idDoctor);
         if (result == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("deleteDoctor: Doctor with " + this.idDoctor + " not found").build();
+    				.entity(notFoundMessage("Doctor", this.idDoctor)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
     }
