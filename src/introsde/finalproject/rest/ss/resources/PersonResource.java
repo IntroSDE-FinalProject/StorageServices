@@ -51,13 +51,13 @@ public class PersonResource {
     //********************PERSON********************
     
     @GET
-    @Produces( { MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN } )
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getPerson() {
     	System.out.println("getPerson: Reading Person...");
     	Person person = people.getPerson(this.idPerson);
     	if (person == null)
     		return Response.status(Response.Status.NOT_FOUND)
-    				.entity("Get: Person with " + this.idPerson + " not found").build();
+    				.entity("{ \n error : \"Get: Person with " + this.idPerson + " not found\" \n }").build();
     	else{
     		System.out.println("Person: "+person.getIdPerson()+" "+person.getLastname());
     		return Response.ok(person).build();
@@ -75,10 +75,10 @@ public class PersonResource {
         	return Response.ok(result).build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
-    				.entity("updatePerson: Person with " + this.idPerson + " not found").build();
+    				.entity("{ \n error : \"updatePerson: Person with " + this.idPerson + " not found\"}").build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();   	
+    				.entity("{ \n error : \"Error in LocalDatabaseService\"").build();   	
     }
     
     @DELETE
@@ -88,7 +88,7 @@ public class PersonResource {
         int result = people.deletePerson(this.idPerson);
         if (result == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity("{ \n error : \"Error in LocalDatabaseService").build();
         else if (result == -2)
         	return Response.status(Response.Status.NOT_FOUND)
     				.entity("deletePerson: Person with " + this.idPerson + " not found").build();
