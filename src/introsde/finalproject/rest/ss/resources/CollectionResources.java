@@ -51,7 +51,7 @@ public class CollectionResources {
 	private QName qname = null;
 	
 	public CollectionResources() throws MalformedURLException{
-		String input_url = "https://lds-hidden-taiga-5842.herokuapp.com/ws/people?wsdl";
+		String input_url = "https://lds-hidden-taiga-5842.herokuapp.com/ws/people?wsdl"; //LocalDatabaseService
 		//String input_url = "http://127.0.1.1:6902/ws/people?wsdl";
 		url = new URL(input_url);
 		//1st argument service URI, refer to wsdl document above

@@ -51,7 +51,7 @@ public class PersonResource {
     //********************PERSON********************
     
     @GET
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces( { MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN } )
     public Response getPerson() {
     	System.out.println("getPerson: Reading Person...");
     	Person person = people.getPerson(this.idPerson);

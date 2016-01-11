@@ -44,7 +44,7 @@ public class DoctorResource {
     }
 	
     @GET
-    @Produces( MediaType.TEXT_PLAIN )
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     public Response getDoctor() {
     	System.out.println("get: Reading Doctor...");
     	Doctor doctor = people.getDoctor(this.idDoctor);
