@@ -93,7 +93,7 @@ public class CollectionResources {
      */
     @GET
     @Path("person/count")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String getCount() {
         System.out.println("getCount: Getting count...");
         List<Person> people = this.people.getPeopleList();
