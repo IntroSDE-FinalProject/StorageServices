@@ -6,11 +6,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import javax.ejb.*;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.PersistenceUnit;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -37,13 +32,6 @@ public class CollectionResources {
     @Context
     Request request;
     
-    // will work only inside a Java EE application
-    @PersistenceUnit(unitName="introsde-jpa")
-    EntityManager entityManager;
-
-    // will work only inside a Java EE application
-    @PersistenceContext(unitName = "introsde-jpa",type=PersistenceContextType.TRANSACTION)
-    private EntityManagerFactory entityManagerFactory;
     
     private URL url = null;
 	private Service service = null;

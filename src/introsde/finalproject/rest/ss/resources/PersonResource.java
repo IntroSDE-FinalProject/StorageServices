@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -32,13 +31,10 @@ public class PersonResource {
     int idPerson;
     private People people = null;
 
-    EntityManager entityManager; // only used if the application is deployed in a Java EE container
-
-    public PersonResource(UriInfo uriInfo, Request request,int id, EntityManager em) {
+    public PersonResource(UriInfo uriInfo, Request request,int id) {
         this.uriInfo = uriInfo;
         this.request = request;
         this.idPerson = id;
-        this.entityManager = em;
     }
 
     public PersonResource(UriInfo uriInfo, Request request,int id, People people) {
