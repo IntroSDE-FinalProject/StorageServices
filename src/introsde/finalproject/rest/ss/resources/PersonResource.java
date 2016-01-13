@@ -135,9 +135,14 @@ public class PersonResource {
     @Path("/currentHealth")
     @Produces( MediaType.APPLICATION_JSON )
     public Response getCurrentHealth() {
+    	try{
     	System.out.println("getCurrentHealth: Reading CurrentHealth for idPerson "+ this.idPerson +"...");
     	ListMeasureWrapper result =  people.getCurrentHealth(this.idPerson);
     	return Response.ok(result).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     //********************TARGET********************
