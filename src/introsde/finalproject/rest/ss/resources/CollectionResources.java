@@ -103,8 +103,8 @@ public class CollectionResources {
     public Response getCount() {
     	try{
         System.out.println("getCount: Getting count...");
-        List<Person> people = this.people.getPeopleList();
-        int count = people.size();
+        ListPersonWrapper people = this.people.getPeopleList();
+        int count = people.getPerson().size();
         return Response.ok(String.valueOf(count)).build();
     	}catch(Exception e){
     		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

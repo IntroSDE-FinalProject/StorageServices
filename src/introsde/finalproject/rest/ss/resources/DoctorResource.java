@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import introsde.finalproject.soap.ws.Doctor;
+import introsde.finalproject.soap.ws.ListPersonWrapper;
 import introsde.finalproject.soap.ws.People;
 import introsde.finalproject.soap.ws.Person;
 
@@ -119,7 +120,7 @@ public class DoctorResource {
     public Response getPersonByDoctor() {
     	try{
     	System.out.println("getPersonByDoctor: Reading Patient...");
-    	List<Person> result = people.getPersonByDoctor(this.idDoctor);
+    	ListPersonWrapper result = people.getPersonByDoctor(this.idDoctor);
     	return Response.ok(result).build();
     	}catch(Exception e){
     		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
