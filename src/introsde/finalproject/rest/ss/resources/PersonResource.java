@@ -3,8 +3,6 @@ package introsde.finalproject.rest.ss.resources;
 //import ehealth.model.MeasureDefinition;
 import introsde.finalproject.soap.ws.*;
 
-import java.util.List;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -103,18 +101,18 @@ public class PersonResource {
     @GET
     @Path("/vitalsings")
     @Produces( MediaType.APPLICATION_JSON )
-    public List<Measure> getVitalSigns() {
+    public ListMeasureWrapper getVitalSigns() {
     	System.out.println("getVitalSigns: Reading vital signs for idPerson "+ this.idPerson +"...");
-    	List<Measure> result = people.getVitalSigns(this.idPerson);
+    	ListMeasureWrapper result = people.getVitalSigns(this.idPerson);
     	return result;
     }
     
     @GET
     @Path("/currentHealth")
     @Produces( MediaType.APPLICATION_JSON )
-    public List<Measure> getCurrentHealth() {
+    public ListMeasureWrapper getCurrentHealth() {
     	System.out.println("getCurrentHealth: Reading CurrentHealth for idPerson "+ this.idPerson +"...");
-    	List<Measure> result = people.getCurrentHealth(this.idPerson);
+    	ListMeasureWrapper result =  people.getCurrentHealth(this.idPerson);
     	return result;
     }
     
@@ -123,9 +121,9 @@ public class PersonResource {
     @GET
     @Path("/target")
     @Produces( MediaType.APPLICATION_JSON )
-    public List<Target> getTargetList() {
+    public ListTargetWrapper getTargetList() {
     	System.out.println("getTargetList: Reading targets for idPerson "+ this.idPerson +"...");
-    	List<Target> result = people.getTargetList(this.idPerson);
+    	ListTargetWrapper result = people.getTargetList(this.idPerson);
     	return result;
     }
     
@@ -182,10 +180,10 @@ public class PersonResource {
     @GET
     @Path("/target/{measureDefinitionId}")
     @Produces( MediaType.APPLICATION_JSON )
-    public List<Target> getTarget(@PathParam("measureDefinitionId") int measureDefId) {
+    public ListTargetWrapper getTarget(@PathParam("measureDefinitionId") int measureDefId) {
     	System.out.println("getTarget: Reading target for idPerson = "+ this.idPerson +
     			" and measureDefId = "+measureDefId+"...");
-    	List<Target> result = people.getTarget(this.idPerson, measureDefId);
+    	ListTargetWrapper result = people.getTarget(this.idPerson, measureDefId);
     	return result;
     }
     
@@ -194,9 +192,9 @@ public class PersonResource {
     @GET
     @Path("/reminder")
     @Produces( MediaType.APPLICATION_JSON )
-    public List<Reminder> getReminder() {
+    public ListReminderWrapper getReminder() {
     	System.out.println("getReminder: Reading reminders for idPerson "+ this.idPerson +"...");
-    	List<Reminder> result = people.getReminder(this.idPerson);
+    	ListReminderWrapper result = people.getReminder(this.idPerson);
     	return result;
     }
     
@@ -254,9 +252,9 @@ public class PersonResource {
     @GET
     @Path("/measure")
     @Produces( MediaType.APPLICATION_JSON )
-    public List<Measure> getMeasure() {
+    public ListMeasureWrapper getMeasure() {
     	System.out.println("getMeasure: Reading measures for idPerson "+ this.idPerson +"...");
-    	List<Measure> result = people.getMeasure(this.idPerson);
+    	ListMeasureWrapper result = people.getMeasure(this.idPerson);
     	return result;
     }
     
