@@ -59,7 +59,7 @@ public class CollectionAdapterServiceResource {
 	}
     
 	private String errorMessage(Exception e){
-    	return "{ \n \"error\" : \"Error in Adapter Services, due to the exception: "+e+"\"}";
+    	return "{ \n \"error\" : \"Error in Storage Services, due to the exception: "+e+"\"}";
     }
 	
 	private String externalErrorMessage(String e){

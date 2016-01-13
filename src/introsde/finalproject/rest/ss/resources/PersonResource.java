@@ -46,6 +46,10 @@ public class PersonResource {
     	return "{ \n \"error\" : \"Error in LocalDatabaseService\"}";
     }
     
+    private String errorMessage(Exception e){
+    	return "{ \n \"error\" : \"Error in Storage Services, due to the exception: "+e+"\"}";
+    }
+    
     private String notFoundMessage(String name, int id){
     	return "{ \n \"error\" : \""+ name +" with id = " + id + " not found\" \n }";
     }
@@ -55,6 +59,7 @@ public class PersonResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPerson() {
+    	try{
     	System.out.println("getPerson: Reading Person...");
     	Person person = people.getPerson(this.idPerson);
     	if (person == null)
@@ -64,12 +69,17 @@ public class PersonResource {
     		System.out.println("Person: "+person.getIdPerson()+" "+person.getLastname());
     		return Response.ok(person).build();
     	}
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Produces(MediaType.APPLICATION_JSON )
 	public Response updatePerson(Person person) {
+    	try{
     	System.out.println("updatePerson: Updating person with id: "+this.idPerson);
     	person.setIdPerson(this.idPerson);
         int result = people.updatePerson(person);    
@@ -80,12 +90,17 @@ public class PersonResource {
     				.entity(notFoundMessage("Person", this.idPerson)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity(errorMessage()).build();   	
+    				.entity(errorMessage()).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @DELETE
     @Produces( MediaType.APPLICATION_JSON )
     public Response deletePerson() {
+    	try{
     	System.out.println("detetePerson: Deleting person with id: "+ this.idPerson);
         int result = people.deletePerson(this.idPerson);
         if (result == -1)
@@ -96,24 +111,33 @@ public class PersonResource {
     				.entity(notFoundMessage("Person", this.idPerson)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @GET
     @Path("/vitalsings")
     @Produces( MediaType.APPLICATION_JSON )
-    public ListMeasureWrapper getVitalSigns() {
+    public Response getVitalSigns() {
+    	try{
     	System.out.println("getVitalSigns: Reading vital signs for idPerson "+ this.idPerson +"...");
     	ListMeasureWrapper result = people.getVitalSigns(this.idPerson);
-    	return result;
+    	return Response.ok(result).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @GET
     @Path("/currentHealth")
     @Produces( MediaType.APPLICATION_JSON )
-    public ListMeasureWrapper getCurrentHealth() {
+    public Response getCurrentHealth() {
     	System.out.println("getCurrentHealth: Reading CurrentHealth for idPerson "+ this.idPerson +"...");
     	ListMeasureWrapper result =  people.getCurrentHealth(this.idPerson);
-    	return result;
+    	return Response.ok(result).build();
     }
     
     //********************TARGET********************
@@ -121,10 +145,15 @@ public class PersonResource {
     @GET
     @Path("/target")
     @Produces( MediaType.APPLICATION_JSON )
-    public ListTargetWrapper getTargetList() {
+    public Response getTargetList() {
+    	try{
     	System.out.println("getTargetList: Reading targets for idPerson "+ this.idPerson +"...");
     	ListTargetWrapper result = people.getTargetList(this.idPerson);
-    	return result;
+    	return Response.ok(result).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
    
@@ -133,6 +162,7 @@ public class PersonResource {
     @Produces( MediaType.APPLICATION_JSON )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createTarget(Target target){
+    	try{
     	System.out.println("New Target for " + target.getMeasureDefinition().getMeasureName());
         System.out.println("createTarget: Creating new target...");
         int id = this.people.createTarget(target, this.idPerson);
@@ -141,6 +171,10 @@ public class PersonResource {
     				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @PUT
@@ -148,6 +182,7 @@ public class PersonResource {
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Produces( MediaType.APPLICATION_JSON )
 	public Response updateTarget(Target target, @PathParam("targetId") int targetId) {
+    	try{
     	System.out.println("updateTarget: Updating target with id: "+ targetId);
     	target.setIdTarget(targetId);
         int result = people.updateTarget(target);    
@@ -158,13 +193,18 @@ public class PersonResource {
     				.entity(notFoundMessage("Target", targetId)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity(errorMessage()).build();   	
+    				.entity(errorMessage()).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @DELETE
     @Path("/target/{targetId}")
     @Produces( MediaType.APPLICATION_JSON )
     public Response deleteTarget(@PathParam("targetId") int targetId) {
+    	try{
     	System.out.println("deteteTarget: Deleting target with id: "+ targetId);
         int result = people.deleteTarget(targetId);
         if (result == -1)
@@ -175,16 +215,25 @@ public class PersonResource {
     				.entity(notFoundMessage("Target", targetId)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @GET
     @Path("/target/{measureDefinitionId}")
     @Produces( MediaType.APPLICATION_JSON )
-    public ListTargetWrapper getTarget(@PathParam("measureDefinitionId") int measureDefId) {
+    public Response getTarget(@PathParam("measureDefinitionId") int measureDefId) {
+    	try{
     	System.out.println("getTarget: Reading target for idPerson = "+ this.idPerson +
     			" and measureDefId = "+measureDefId+"...");
     	ListTargetWrapper result = people.getTarget(this.idPerson, measureDefId);
-    	return result;
+    	return Response.ok(result).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     //***********************REMINDER***********************
@@ -192,10 +241,15 @@ public class PersonResource {
     @GET
     @Path("/reminder")
     @Produces( MediaType.APPLICATION_JSON )
-    public ListReminderWrapper getReminder() {
+    public Response getReminder() {
+    	try{
     	System.out.println("getReminder: Reading reminders for idPerson "+ this.idPerson +"...");
     	ListReminderWrapper result = people.getReminder(this.idPerson);
-    	return result;
+    	return Response.ok(result).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @POST
@@ -203,6 +257,7 @@ public class PersonResource {
     @Produces( MediaType.APPLICATION_JSON )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createReminder(Reminder reminder){
+    	try{
     	System.out.println("New Reminder for person" + this.idPerson);
         System.out.println("createReminder: Creating new reminder...");
         int id = this.people.createReminder(reminder, this.idPerson);
@@ -211,6 +266,10 @@ public class PersonResource {
     				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @PUT
@@ -218,6 +277,7 @@ public class PersonResource {
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Produces( MediaType.APPLICATION_JSON )
 	public Response updateReminder(Reminder reminder, @PathParam("reminderId") int reminderId) {
+    	try{
     	System.out.println("updateReminder: Updating reminder with id: "+ reminderId);
     	reminder.setIdReminder(reminderId);
         int result = people.updateReminder(reminder);    
@@ -228,13 +288,18 @@ public class PersonResource {
     				.entity(notFoundMessage("Reminder", reminderId)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity(errorMessage()).build();   	
+    				.entity(errorMessage()).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @DELETE
     @Path("/reminder/{reminderId}")
     @Produces( MediaType.APPLICATION_JSON )
     public Response deleteReminder(@PathParam("reminderId") int reminderId) {
+    	try{
     	System.out.println("deteteReminder: Deleting reminder with id: "+ reminderId);
         int result = people.deleteReminder(reminderId);
         if (result == -1)
@@ -245,6 +310,10 @@ public class PersonResource {
     				.entity(notFoundMessage("Reminder", reminderId)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     //***********************MEASURE***********************
@@ -252,10 +321,15 @@ public class PersonResource {
     @GET
     @Path("/measure")
     @Produces( MediaType.APPLICATION_JSON )
-    public ListMeasureWrapper getMeasure() {
+    public Response getMeasure() {
+    	try{
     	System.out.println("getMeasure: Reading measures for idPerson "+ this.idPerson +"...");
     	ListMeasureWrapper result = people.getMeasure(this.idPerson);
-    	return result;
+    	return Response.ok(result).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @POST
@@ -263,6 +337,7 @@ public class PersonResource {
     @Produces( MediaType.APPLICATION_JSON )
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Response createMeasure(Measure measure){
+    	try{
     	System.out.println("New Measure for person" + this.idPerson);
         System.out.println("createMeasure: Creating new measure...");
         int id = this.people.createMeasure(measure, this.idPerson);
@@ -271,6 +346,10 @@ public class PersonResource {
     				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @PUT
@@ -278,6 +357,7 @@ public class PersonResource {
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Produces( MediaType.APPLICATION_JSON )
 	public Response updateMeasure(Measure measure, @PathParam("measureId") int measureId) throws ParseException_Exception {
+    	try{
     	System.out.println("updateMeasure: Updating measures with id: "+ measureId);
     	measure.setIdMeasure(measureId);
         int result = people.updateMeasure(measure);    
@@ -288,13 +368,18 @@ public class PersonResource {
     				.entity(notFoundMessage("Measure", measureId)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity(errorMessage()).build();   	
+    				.entity(errorMessage()).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @DELETE
     @Path("/measure/{measureId}")
     @Produces( MediaType.APPLICATION_JSON )
     public Response deleteMeasure(@PathParam("measureId") int measureId) {
+    	try{
     	System.out.println("deteteMeasure: Deleting Measure with id: "+ measureId);
         int result = people.deleteMeasure(measureId);
         if (result == -1)
@@ -305,6 +390,10 @@ public class PersonResource {
     				.entity(notFoundMessage("Measure", measureId)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
 }
