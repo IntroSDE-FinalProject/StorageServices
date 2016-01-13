@@ -50,6 +50,10 @@ public class CollectionResources {
 		people = service.getPort(People.class);
 	}
     
+	private String errorMessage(){
+    	return "{ \n \"error\" : \"Error in LocalDatabaseService\"}";
+    }
+	
 	//***********************Person***********************
 	
 	@GET
@@ -70,7 +74,7 @@ public class CollectionResources {
         int id = this.people.createPerson(person);
         if(id == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
     }
@@ -111,7 +115,7 @@ public class CollectionResources {
         int id = this.people.createDoctor(doctor);
         if(id == -1)
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity("Error in LocalDatabaseService").build();
+    				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
     }
