@@ -54,14 +54,23 @@ public class CollectionResources {
     	return "{ \n \"error\" : \"Error in LocalDatabaseService\"}";
     }
 	
+	private String errorMessage(Exception e){
+    	return "{ \n \"error\" : \"Error in Storage Services, due to the exception: "+e+"\"}";
+    }
+	
 	//***********************Person***********************
 	
 	@GET
 	@Path("person")
 	@Produces( MediaType.APPLICATION_JSON )
 	public Response getPeopleList() {
+		try{
 		System.out.println("getPeopleList: Getting list of person...");
 		return Response.ok(people.getPeopleList()).build();
+		}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
 	}
     
 	@POST
@@ -69,6 +78,7 @@ public class CollectionResources {
 	@Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})  
     public Response createPerson(Person person) throws IOException {
+		try{
 		System.out.println("New Person: "+person.getFirstname()+" "+person.getLastname());
         System.out.println("createPerson: Creating new person...");
         int id = this.people.createPerson(person);
@@ -77,6 +87,10 @@ public class CollectionResources {
     				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
+		}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
 	
 	 /**
@@ -86,11 +100,16 @@ public class CollectionResources {
     @GET
     @Path("person/count")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getCount() {
+    public Response getCount() {
+    	try{
         System.out.println("getCount: Getting count...");
         List<Person> people = this.people.getPeopleList();
         int count = people.size();
-        return String.valueOf(count);
+        return Response.ok(String.valueOf(count)).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     /** Defines that the next path parameter after the base url is
@@ -110,6 +129,7 @@ public class CollectionResources {
 	@Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})  
     public Response createDoctor(Doctor doctor) throws IOException {
+    	try{
 		System.out.println("New Doctor: "+doctor.getFirstname()+" "+doctor.getLastname());
         System.out.println("createDoctor: Creating new doctor...");
         int id = this.people.createDoctor(doctor);
@@ -118,6 +138,10 @@ public class CollectionResources {
     				.entity(errorMessage()).build();
         else
         	return Response.status(Response.Status.CREATED).entity(id).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @Path("doctor/{doctorId}")
@@ -130,20 +154,30 @@ public class CollectionResources {
     @GET
     @Path("measureDefinition")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MeasureDefinition> getMeasureDefinition() {
+    public Response getMeasureDefinition() {
+    	try{
         System.out.println("getMeasureDefinition: Reading measure definitions...");
         List<MeasureDefinition> result = this.people.getMeasureDefinition();
-        return result;
+        return Response.ok(result).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     //***********************Family***********************
     @GET
     @Path("family/{familyId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Family getFamily(@PathParam("familyId") int id) {
-        System.out.println("getFamily: Reading family...");
+    public Response getFamily(@PathParam("familyId") int id) {
+        try{
+    	System.out.println("getFamily: Reading family...");
         Family result = this.people.getFamily(id);
-        return result;
+        return Response.ok(result).build();
+        }catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
 }

@@ -43,6 +43,10 @@ public class DoctorResource {
     	return "{ \n \"error\" : \"Error in LocalDatabaseService\"}";
     }
     
+    private String errorMessage(Exception e){
+    	return "{ \n \"error\" : \"Error in Storage Services, due to the exception: "+e+"\"}";
+    }
+    
     private String notFoundMessage(String name, int id){
     	return "{ \n \"error\" : \""+ name +" with " + id + " not found\" \n }";
     }
@@ -50,6 +54,7 @@ public class DoctorResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDoctor() {
+    	try{
     	System.out.println("get: Reading Doctor...");
     	Doctor doctor = people.getDoctor(this.idDoctor);
     	if (doctor == null)
@@ -59,12 +64,18 @@ public class DoctorResource {
     		System.out.println("Doctor: "+doctor.getIdDoctor()+" "+doctor.getLastname());
     		return Response.ok(doctor).build();
     	}
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
+    	
     }
 	
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Produces(MediaType.APPLICATION_JSON )
 	public Response updateDoctor(Doctor doctor) {
+    	try{
     	System.out.println("updateDoctor: Updating doctor with id: "+this.idDoctor);
     	doctor.setIdDoctor(this.idDoctor);
         int result = people.updateDoctor(doctor);    
@@ -75,12 +86,17 @@ public class DoctorResource {
     				.entity(notFoundMessage("Doctor", this.idDoctor)).build();
         else
         	return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-    				.entity(errorMessage()).build();   	
+    				.entity(errorMessage()).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @DELETE
     @Produces( MediaType.APPLICATION_JSON )
     public Response deleteDoctor() {
+    	try{
     	System.out.println("deteteDoctor: Deleting doctor with id: "+ this.idDoctor);
         int result = people.deleteDoctor(this.idDoctor);
         if (result == -1)
@@ -91,15 +107,24 @@ public class DoctorResource {
     				.entity(notFoundMessage("Doctor", this.idDoctor)).build();
         else
         	return Response.status(Response.Status.NO_CONTENT).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
     @GET
     @Path("/patients")
     @Produces( MediaType.APPLICATION_JSON )
     public Response getPersonByDoctor() {
+    	try{
     	System.out.println("getPersonByDoctor: Reading Patient...");
     	List<Person> result = people.getPersonByDoctor(this.idDoctor);
     	return Response.ok(result).build();
+    	}catch(Exception e){
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    				.entity(errorMessage(e)).build();
+    	}
     }
     
 }
