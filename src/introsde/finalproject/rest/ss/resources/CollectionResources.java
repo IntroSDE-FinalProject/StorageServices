@@ -157,7 +157,7 @@ public class CollectionResources {
     public Response getMeasureDefinition() {
     	try{
         System.out.println("getMeasureDefinition: Reading measure definitions...");
-        List<MeasureDefinition> result = this.people.getMeasureDefinition();
+        ListMeasureDefinitionWrapper result = this.people.getMeasureDefinition();
         return Response.ok(result).build();
     	}catch(Exception e){
     		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
