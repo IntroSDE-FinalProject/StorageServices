@@ -52,6 +52,11 @@ public class DoctorResource {
     	return "{ \n \"error\" : \""+ name +" with " + id + " not found\" \n }";
     }
     
+    /**
+     * GET /doctor/{idDoctor}
+     * Calls getDoctor in LDS
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDoctor() {
@@ -72,6 +77,12 @@ public class DoctorResource {
     	
     }
 	
+    /**
+     * PUT /doctor/{idDoctor}
+     * Calls updateDoctor in LDS
+     * @param doctor
+     * @return
+     */
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Produces(MediaType.APPLICATION_JSON )
@@ -94,6 +105,11 @@ public class DoctorResource {
     	}
     }
     
+    /**
+     * DELETE  /doctor/{idDoctor}
+     * Calls deleteDoctor in LDS
+     * @return
+     */
     @DELETE
     @Produces( MediaType.APPLICATION_JSON )
     public Response deleteDoctor() {
@@ -114,6 +130,12 @@ public class DoctorResource {
     	}
     }
     
+    /**
+     * GET /doctor/{idDoctor}/patients
+     * Calls getPersonByDoctor in LDS
+     * This method is used to retrieve all patients associated to a specified doctor
+     * @return
+     */
     @GET
     @Path("/patients")
     @Produces( MediaType.APPLICATION_JSON )

@@ -38,6 +38,10 @@ public class CollectionResources {
 	private People people = null;
 	private QName qname = null;
 	
+	/**
+	 * Create the connection with the LocalDatabaseService
+	 * @throws MalformedURLException
+	 */
 	public CollectionResources() throws MalformedURLException{
 		String input_url = "https://lds-hidden-taiga-5842.herokuapp.com/ws/people?wsdl"; //LocalDatabaseService
 		//String input_url = "http://127.0.1.1:6902/ws/people?wsdl";
@@ -60,6 +64,12 @@ public class CollectionResources {
 	
 	//***********************Person***********************
 	
+	/**
+	 * GET /person
+	 * Returns the list of all person in the database in LocalDatabaseService (LDS)
+	 * Calls getPeopleList in LDS
+	 * @return
+	 */
 	@GET
 	@Path("person")
 	@Produces( MediaType.APPLICATION_JSON )
@@ -73,6 +83,14 @@ public class CollectionResources {
     	}
 	}
     
+	/**
+	 * POST /person
+	 * Calls a LDS method createPerson
+	 * Creates a new person
+	 * @param person
+	 * @return
+	 * @throws IOException
+	 */
 	@POST
 	@Path("person")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -124,6 +142,13 @@ public class CollectionResources {
     
     //***********************Doctor***********************
     
+    /**
+     * POST /doctor
+     * Calls createDoctor in LDS
+     * @param doctor
+     * @return
+     * @throws IOException
+     */
     @POST
 	@Path("doctor")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -151,6 +176,13 @@ public class CollectionResources {
     
     //***********************MeasureDefinition***********************
     
+    /**
+     * GET /measureDefinition
+     * Calls getMeasureDefinition in LDS
+     * This method is used to retrieve all information about
+	 * the provided measure definitions
+     * @return
+     */
     @GET
     @Path("measureDefinition")
     @Produces(MediaType.APPLICATION_JSON)
@@ -166,6 +198,14 @@ public class CollectionResources {
     }
     
     //***********************Family***********************
+    
+    /**
+     * GET family/{familyId}
+     * Read information about a family with id familyId
+     * Calls getFamily in LDS
+     * @param id
+     * @return
+     */
     @GET
     @Path("family/{familyId}")
     @Produces(MediaType.APPLICATION_JSON)

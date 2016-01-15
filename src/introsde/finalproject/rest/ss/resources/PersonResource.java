@@ -56,6 +56,12 @@ public class PersonResource {
 
     //********************PERSON********************
     
+    /**
+     * GET /person/{idPerson}
+     * Calls getPerson in LDS
+     * Returns a person
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPerson() {
@@ -75,6 +81,13 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * PUT /person/{idPerson}
+     * Updates person passed as parameter
+     * Calls updatePerson() in LDS
+     * @param person
+     * @return
+     */
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Produces(MediaType.APPLICATION_JSON )
@@ -97,6 +110,11 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * DELETE /person/{idPerson}
+     * Deletes person with id = idPerson
+     * Calls deletePerson in LDS
+     */
     @DELETE
     @Produces( MediaType.APPLICATION_JSON )
     public Response deletePerson() {
@@ -117,6 +135,13 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * GET /person/{idPerson}/vitalsings
+     * Calls getVitalSigns in LDS
+     * This method is used to retrieve vital signs of a person, min and max value
+	 * of blood pressure
+     * @return
+     */
     @GET
     @Path("/vitalsings")
     @Produces( MediaType.APPLICATION_JSON )
@@ -131,6 +156,11 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * GET /person/{idPerson}/currentHealth
+     * Calls getCurrentHealth in LDS 
+     * @return
+     */
     @GET
     @Path("/currentHealth")
     @Produces( MediaType.APPLICATION_JSON )
@@ -147,6 +177,12 @@ public class PersonResource {
     
     //********************TARGET********************
     
+    /**
+     * GET /person/{idPerson}/target
+     * This method is used to get a list of targets for a specified personId
+     * Calls getTargetList in LDS
+     * @return
+     */
     @GET
     @Path("/target")
     @Produces( MediaType.APPLICATION_JSON )
@@ -161,7 +197,13 @@ public class PersonResource {
     	}
     }
     
-   
+    /**
+     * POST /person/{idPerson}/target
+     * Calls createTarget in LDS
+     * This method is used to add a target for a specific personId
+     * @param target Target object
+     * @return
+     */
     @POST
 	@Path("/target")
     @Produces( MediaType.APPLICATION_JSON )
@@ -182,6 +224,14 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * PUT /person/{idPerson}/target/{targetId}
+     * This method is used to update a specified target passed as parameter
+     * Calls updateTarget in LDS
+     * @param target
+     * @param targetId
+     * @return
+     */
     @PUT
     @Path("/target/{targetId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -205,6 +255,12 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * DELETE /person/{idPerson}/target/{targetId}
+     * Calls deleteTarget in LDS
+     * @param targetId
+     * @return
+     */
     @DELETE
     @Path("/target/{targetId}")
     @Produces( MediaType.APPLICATION_JSON )
@@ -226,6 +282,15 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * GET /person/{idPerson}/target/{measureDefinitionId}
+     * Calls getTarget in LDS
+     * This method is used to retrieve information about 
+     * target for a specified person and measure
+     * Example: check if there are target about weight for the personId 1
+     * @param measureDefId
+     * @return list of target
+     */
     @GET
     @Path("/target/{measureDefinitionId}")
     @Produces( MediaType.APPLICATION_JSON )
@@ -243,6 +308,11 @@ public class PersonResource {
     
     //***********************REMINDER***********************
     
+    /**
+     * GET /person/{idPerson}/reminder
+     * Calls getReminder in LDS
+     * @return Reminder
+     */
     @GET
     @Path("/reminder")
     @Produces( MediaType.APPLICATION_JSON )
@@ -257,6 +327,12 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * POST /person/{idPerson}/reminder
+     * Calls createReminder in LDS
+     * @param reminder
+     * @return
+     */
     @POST
 	@Path("/reminder")
     @Produces( MediaType.APPLICATION_JSON )
@@ -277,6 +353,13 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * PUT /person/{idPerson}/reminder/{reminderId}
+     * Calls updateReminder in LDS
+     * @param reminder
+     * @param reminderId
+     * @return reminderid or error
+     */
     @PUT
     @Path("/reminder/{reminderId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -300,6 +383,12 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * DELETE /person/{idPerson}/reminder/{reminderId}
+     * Calls deleteReminder in LDS
+     * @param reminderId
+     * @return 
+     */
     @DELETE
     @Path("/reminder/{reminderId}")
     @Produces( MediaType.APPLICATION_JSON )
@@ -323,6 +412,11 @@ public class PersonResource {
     
     //***********************MEASURE***********************
     
+    /**
+     * GET /person/{idPerson}/measure
+     * Calls getMeasure in LDS
+     * @return
+     */
     @GET
     @Path("/measure")
     @Produces( MediaType.APPLICATION_JSON )
@@ -337,6 +431,12 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * POST /person/{idPerson}/measure
+     * Calls createMeasure in LDS
+     * @param measure
+     * @return
+     */
     @POST
 	@Path("/measure")
     @Produces( MediaType.APPLICATION_JSON )
@@ -357,6 +457,14 @@ public class PersonResource {
     	}
     }
     
+    /**
+     * PUT /person/{idPerson}/measure/{measureId}
+     * Calls updateMeasure in LDS
+     * @param measure
+     * @param measureId
+     * @return
+     * @throws ParseException_Exception
+     */
     @PUT
     @Path("/measure/{measureId}")
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -379,7 +487,12 @@ public class PersonResource {
     				.entity(errorMessage(e)).build();
     	}
     }
-    
+    /**
+     * DELETE /person/{idPerson}/measure/{measureId}
+     * Calls deleteMeasure in LDS
+     * @param measureId
+     * @return
+     */
     @DELETE
     @Path("/measure/{measureId}")
     @Produces( MediaType.APPLICATION_JSON )

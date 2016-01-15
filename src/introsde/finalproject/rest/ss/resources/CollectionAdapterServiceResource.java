@@ -79,7 +79,10 @@ public class CollectionAdapterServiceResource {
 		return UriBuilder.fromUri(conn).build(); //my server
 	}
 	
-	
+	/**
+	 * get a quote from Adapter Service (AD)
+	 * @return
+	 */
 	@GET
 	@Path("/quote")
 	@Produces( MediaType.TEXT_PLAIN )
