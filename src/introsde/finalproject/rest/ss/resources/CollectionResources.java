@@ -4,7 +4,6 @@ import introsde.finalproject.soap.ws.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import javax.ejb.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

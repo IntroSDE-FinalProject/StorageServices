@@ -1,7 +1,5 @@
 package introsde.finalproject.rest.ss.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,7 +15,6 @@ import javax.ws.rs.core.UriInfo;
 import introsde.finalproject.soap.ws.Doctor;
 import introsde.finalproject.soap.ws.ListPersonWrapper;
 import introsde.finalproject.soap.ws.People;
-import introsde.finalproject.soap.ws.Person;
 
 public class DoctorResource {
 	@Context
